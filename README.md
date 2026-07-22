@@ -27,6 +27,24 @@ No coding experience needed — you're just editing words and links inside quote
 
 That's it — every time you edit `index.html` in GitHub (or upload a new version) and commit, the live site updates automatically within a minute or two.
 
+## How to put it on the internet with Vercel
+
+This is a plain static site, so Vercel needs no build step or config file — it just serves `index.html` as-is.
+
+**Option A — straight from GitHub (recommended, auto-updates on every commit):**
+1. Push the site to a GitHub repo (see the GitHub Pages steps above if you haven't already).
+2. Go to [vercel.com](https://vercel.com) and sign in with your GitHub account (free tier is fine).
+3. Click **Add New… → Project**, then select your `wenxuan106-site` repo and click **Import**.
+4. Leave all settings as default (Framework Preset: **Other**) and click **Deploy**.
+5. After a minute, Vercel gives you a live URL like `https://wenxuan106-site.vercel.app`.
+6. From then on, every commit you push to GitHub redeploys the site automatically.
+
+**Option B — upload without GitHub:**
+1. Go to [vercel.com](https://vercel.com) and sign in (any account works).
+2. Click **Add New… → Project → Deploy without Git**, or drag the whole site folder (`index.html` + `assets` folder) onto the Vercel dashboard's upload area.
+3. Click **Deploy**. You'll get the same kind of `.vercel.app` link.
+4. To update later, re-upload the folder from the project's dashboard (this option doesn't auto-update — Option A does).
+
 ## Making edits later
 
 - **Easiest**: edit the file directly on GitHub — open `index.html` in your repo, click the pencil icon, make changes, click **Commit changes**.
