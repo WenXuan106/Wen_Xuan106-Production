@@ -2,7 +2,18 @@
 
 A single-file website (`index.html`) — no build tools, no dependencies to install.
 
-## How to edit it
+## Easiest way to edit it: editor.html
+
+Open `editor.html` in your browser (just double-click it) — it's a simple form-based tool, pre-filled with your current content:
+
+- Change your tagline, bio, stats, streaming/social links, or lightstick colors
+- Upload a new photo (it gets embedded directly into the file, no separate image needed)
+- Click **Download updated index.html** at the bottom — it downloads a ready-to-use `index.html` with your changes baked in
+- Replace the old `index.html` in your GitHub repo with the new one and commit — that's it
+
+`editor.html` itself never needs to go live; keep it on your computer and reopen it any time you want to make a change.
+
+## How to edit it by hand (optional)
 
 Open `index.html` in any text editor (Notepad, VS Code, TextEdit, etc.):
 
