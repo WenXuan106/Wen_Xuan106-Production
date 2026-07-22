@@ -128,11 +128,11 @@
 
   /* vertical side label, concert-screen style */
   .side-label{
-    position:absolute; right: 3vw; top: 50%; transform: translateY(-50%) rotate(180deg);
-    writing-mode: vertical-rl;
+    position:absolute; left: 50%; bottom: 6vh; transform: translateX(-50%);
+    writing-mode: horizontal-tb;
     font-family:'JetBrains Mono', monospace; font-size: 0.78rem;
     letter-spacing: 0.3em; color: var(--muted);
-    display:flex; align-items:center; gap:14px;
+    display:flex; flex-direction:column; align-items:center; gap:8px;
   }
   @media (max-width: 900px){ .side-label{ display:none; } }
 
