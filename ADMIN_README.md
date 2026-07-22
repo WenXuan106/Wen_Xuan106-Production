@@ -28,7 +28,7 @@ Keep this token somewhere safe (like a password manager) — you'll paste it int
 This is its own separate site from your fan site, so it needs its own repo and its own Vercel project:
 
 1. Create a **new** GitHub repo (e.g. `wenxuan106-admin`) — this should be **private** if you don't want the admin URL discoverable by others, though the token itself is what actually protects write access.
-2. Upload this `index.html` to that new repo.
+2. Upload the `admin.html` file to that new repo, but **rename it to `index.html`** when uploading (so Vercel serves it at the root URL automatically).
 3. Go to [vercel.com](https://vercel.com), sign in with GitHub, click **Add New… → Project**, import the `wenxuan106-admin` repo, and deploy with default settings.
 4. You'll get a URL like `https://wenxuan106-admin.vercel.app` — bookmark it. That's your private editing panel.
 
