@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wen_Xuan106</title>
+<meta name="description" content="Official site of Wen_Xuan106 — music, releases, and links.">
+
+<!-- ============================================================
+     EASY EDIT GUIDE
+     1. Text you see on the page (song titles, bio, links) can be
+        edited directly below in the HTML — just replace the words
+        between the tags. Look for "EDIT:" comments.
+     2. Song list + streaming links live in the CONFIG object near
+        the bottom of this file (search for "SITE CONFIG").
+     3. Colors live in the :root block below (search for "COLOR").
+     ============================================================ -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  /* ============ COLOR TOKENS ============ */
+  :root{
+    --bg:        #080D1F;
+    --bg-card:   #0F1730;
+    --bg-card2:  #15204A;
+    --text:      #EAF1FF;
+    --muted:     #8CA0D6;
+    --yellow:    #FFE45E;
+    /* --glow is the single source of truth — the lightstick button changes
+       this one value, and --pink/--cyan below derive from it automatically,
+       so every accent on the page updates together. */
+    --glow:      #3E7BFF;
+    --pink:      var(--glow);
+    --cyan:      color-mix(in srgb, var(--glow) 55%, white 45%);
+    --line: rgba(234,241,255,0.10);
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  body{
+    margin:0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+  }
+  ::selection{ background: var(--glow); color: #0D0B14; }
+
+  a{ color: inherit; text-decoration: none; }
+  .mono{ font-family: 'JetBrains Mono', monospace; }
+
+  /* subtle ambient glow field */
+  .glow-field{
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background:
+      radial-gradient(600px circle at 15% 20%, color-mix(in srgb, var(--pink) 18%, transparent), transparent 60%),
+      radial-gradient(500px circle at 85% 75%, color-mix(in srgb, var(--cyan) 14%, transparent), transparent 60%);
+    transition: background 0.6s ease;
+  }
+
+  /* ============ NAV ============ */
+  nav{
+    position: sticky; top:0; z-index: 50;
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 18px 6vw;
+    background: color-mix(in srgb, var(--bg) 78%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .brand{
+    font-family:'Poppins',sans-serif; font-weight:800; font-size: 1.05rem;
+    letter-spacing: 0.04em;
+  }
+  .brand span{ color: var(--pink); }
+  .navlinks{ display:flex; gap: 28px; font-size: 0.85rem; color: var(--muted); }
+  .navlinks a:hover{ color: var(--text); }
+  @media (max-width: 640px){ .navlinks{ display:none; } }
+
+  /* ============ HERO ============ */
+  .hero{
+    position:relative; z-index:1;
+    min-height: 92vh;
+    display:flex; align-items:center;
+    padding: 0 6vw;
+  }
+  .hero-inner{ max-width: 900px; }
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace; font-size: 0.78rem;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--cyan); margin-bottom: 22px; display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{
+    content:""; width:8px; height:8px; border-radius:50%;
+    background: var(--cyan); box-shadow: 0 0 12px var(--cyan);
+    animation: pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+
+  h1.name{
+    font-family:'Poppins',sans-serif; font-weight:900;
+    font-size: clamp(3rem, 11vw, 7.5rem);
+    line-height: 0.95; letter-spacing: -0.01em;
+    margin: 0 0 26px 0;
+    background: linear-gradient(100deg, var(--text) 40%, var(--pink) 70%, var(--cyan) 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .tagline{
+    font-size: clamp(1rem, 2vw, 1.3rem); color: var(--muted);
+    max-width: 560px; line-height:1.6; margin-bottom: 40px;
+  }
+  .hero-cta{ display:flex; gap:16px; flex-wrap:wrap; }
+  .btn{
+    font-family:'Poppins',sans-serif; font-weight:700; font-size:0.92rem;
+    padding: 14px 30px; border-radius: 999px; display:inline-flex; align-items:center; gap:10px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .btn-primary{ background: var(--pink); color:#0D0B14; box-shadow: 0 0 0 rgba(255,79,163,0); }
+  .btn-primary:hover{ transform: translateY(-2px); box-shadow: 0 8px 30px color-mix(in srgb, var(--pink) 55%, transparent); }
+  .btn-ghost{ border:1px solid var(--line); color: var(--text); }
+  .btn-ghost:hover{ border-color: var(--muted); transform: translateY(-2px); }
+
+  /* vertical side label, concert-screen style */
+  .side-label{
+    position:absolute; right: 3vw; top: 50%; transform: translateY(-50%) rotate(180deg);
+    writing-mode: vertical-rl;
+    font-family:'JetBrains Mono', monospace; font-size: 0.78rem;
+    letter-spacing: 0.3em; color: var(--muted);
+    display:flex; align-items:center; gap:14px;
+  }
+  @media (max-width: 900px){ .side-label{ display:none; } }
+
+  /* ============ PENLIGHT (signature interactive element) ============ */
+  .penlight-wrap{
+    position: fixed; bottom: 26px; right: 26px; z-index: 60;
+    display:flex; flex-direction:column; align-items:center; gap:8px;
+  }
+  .penlight-btn{
+    width: 58px; height: 58px; border-radius: 50%;
+    background: var(--bg-card2); border: 1px solid var(--line);
+    cursor:pointer; display:flex; align-items:center; justify-content:center;
+    position: relative;
+  }
+  .penlight-btn .bulb{
+    width: 20px; height: 20px; border-radius:50%;
+    background: var(--glow);
+    box-shadow: 0 0 18px 4px var(--glow), 0 0 40px 10px color-mix(in srgb, var(--glow) 50%, transparent);
+    transition: background 0.4s ease, box-shadow 0.4s ease;
+  }
+  .penlight-hint{
+    font-family:'JetBrains Mono', monospace; font-size: 0.62rem; color: var(--muted);
+    letter-spacing: 0.08em; text-align:center; max-width: 90px;
+  }
+
+  /* ============ SECTIONS ============ */
+  section{ position:relative; z-index:1; padding: 100px 6vw; }
+  .section-head{ display:flex; align-items:baseline; gap:18px; margin-bottom: 50px; }
+  .section-num{ font-family:'JetBrains Mono',monospace; color: var(--pink); font-size:0.9rem; }
+  .section-title{
+    font-family:'Poppins',sans-serif; font-weight:800; font-size: clamp(1.6rem, 3vw, 2.4rem);
+  }
+
+  /* ---- Tracklist ---- */
+  .tracklist{ border-top: 1px solid var(--line); }
+  .track{
+    display:grid; grid-template-columns: 50px 1fr auto auto; gap: 22px; align-items:center;
+    padding: 22px 10px; border-bottom: 1px solid var(--line);
+    transition: background 0.25s ease;
+  }
+  .track:hover{ background: var(--bg-card); }
+  .track-num{ font-family:'JetBrains Mono',monospace; color: var(--muted); font-size:0.95rem; }
+  .track-info .t-title{ font-family:'Poppins',sans-serif; font-weight:700; font-size:1.05rem; margin-bottom:4px; }
+  .track-info .t-sub{ color: var(--muted); font-size: 0.85rem; }
+  .track-dur{ font-family:'JetBrains Mono',monospace; color: var(--muted); font-size:0.85rem; }
+  .track-play{
+    width:38px; height:38px; border-radius:50%; border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center; font-size: 0.8rem;
+    transition: all 0.2s ease;
+  }
+  .track:hover .track-play{ border-color: var(--pink); color: var(--pink); }
+  @media (max-width: 640px){
+    .track{ grid-template-columns: 30px 1fr auto; }
+    .track-dur{ display:none; }
+  }
+
+  /* ---- About ---- */
+  .about{ display:grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items:start; }
+  .about-photo{
+    aspect-ratio: 4/5; border-radius: 18px;
+    background: linear-gradient(155deg, var(--bg-card2), var(--bg-card));
+    border: 1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    color: var(--muted); font-family:'JetBrains Mono',monospace; font-size:0.8rem; text-align:center; padding: 20px;
+  }
+  .about-text p{ color: var(--muted); line-height: 1.85; font-size: 1.02rem; margin-bottom: 18px; }
+  .stat-row{ display:flex; gap: 40px; margin-top: 36px; flex-wrap:wrap; }
+  .stat b{ font-family:'Poppins',sans-serif; font-size: 1.8rem; display:block; color: var(--pink); }
+  .stat span{ color: var(--muted); font-size: 0.8rem; letter-spacing:0.05em; text-transform:uppercase; }
+  @media (max-width: 800px){ .about{ grid-template-columns: 1fr; } }
+
+  /* ---- Links / platforms ---- */
+  .platform-grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 18px; }
+  .platform{
+    padding: 26px; border-radius: 16px; border: 1px solid var(--line); background: var(--bg-card);
+    display:flex; flex-direction:column; gap: 14px; transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+  .platform:hover{ transform: translateY(-4px); border-color: var(--glow); }
+  .platform .p-name{ font-family:'Poppins',sans-serif; font-weight:700; font-size:1.05rem; }
+  .platform .p-arrow{ color: var(--muted); font-family:'JetBrains Mono',monospace; font-size:0.85rem; }
+
+  /* ---- Footer ---- */
+  footer{
+    position:relative; z-index:1; padding: 50px 6vw; border-top: 1px solid var(--line);
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;
+    color: var(--muted); font-size: 0.82rem;
+  }
+</style>
+</head>
+<body>
+
+<div class="glow-field" id="glowField"></div>
+
+<nav>
+  <!-- EDIT: artist name shown in nav -->
+  <div class="brand">WEN_XUAN<span>106</span></div>
+  <div class="navlinks">
+    <a href="#music">Music</a>
+    <a href="#about">About</a>
+    <a href="#links">Links</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">Now streaming</div>
+    <!-- EDIT: artist name, big hero title -->
+    <h1 class="name">WEN_XUAN106</h1>
+    <!-- EDIT: tagline / one-line description -->
+    <p class="tagline">Singapore-based UTAU music producer, crafting J-pop from vocal synth to full production. New release out now — press play below.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="#music"><svg width="10" height="12" viewBox="0 0 10 12" fill="currentColor"><path d="M0 0L10 6L0 12V0Z"/></svg> Listen now</a>
+      <a class="btn btn-ghost" href="#links">Follow</a>
+    </div>
+  </div>
+  <div class="side-label">SCROLL ↓ FOR TRACKS</div>
+</div>
+
+<section id="music">
+  <div class="section-head">
+    <span class="section-num mono">01</span>
+    <h2 class="section-title">Tracklist</h2>
+  </div>
+  <!-- Live Spotify embed — pulls directly from your Spotify artist page, so new
+       releases show up here automatically. Nothing to edit when you drop a new song. -->
+  <iframe
+    style="border-radius:16px; border:1px solid var(--line);"
+    src="https://open.spotify.com/embed/artist/4YoZOLetpnP3iTjoq0iySR?utm_source=generator&theme=0"
+    width="100%" height="480" frameBorder="0"
+    allowfullscreen=""
+    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+    loading="lazy">
+  </iframe>
+</section>
+
+<section id="about">
+  <div class="section-head">
+    <span class="section-num mono">02</span>
+    <h2 class="section-title">About</h2>
+  </div>
+  <div class="about">
+    <div class="about-photo" style="background:url('assets/profile.jpeg') center/cover; color:transparent;">
+      <!-- To swap the photo later, replace assets/profile.jpeg with your own image
+           (keep the same filename, or update the path above). -->
+    </div>
+    <div class="about-text">
+      <!-- EDIT: bio paragraphs -->
+      <p>Wen_Xuan106 is a Singapore-based music producer working with vocal synths like Hatsune Miku, building J-pop tracks from vocal synthesis up through full production.</p>
+      <p>Comfortable behind the video editing timeline — animation, less so. Every release blends vocal synth production with a handmade, DIY spirit.</p>
+      <div class="stat-row">
+        <div class="stat"><b>5</b><span>Releases</span></div>
+        <div class="stat"><b>2026</b><span>Debut</span></div>
+        <div class="stat"><b>SG</b><span>Based in</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="links">
+  <div class="section-head">
+    <span class="section-num mono">03</span>
+    <h2 class="section-title">Find the music</h2>
+  </div>
+  <div class="platform-grid" id="platformGrid"><!-- populated from CONFIG.platforms by script below --></div>
+</section>
+
+<footer>
+  <div>© <span id="year"></span> Wen_Xuan106. All rights reserved.</div>
+  <div class="mono">Site built for the fans 💿</div>
+</footer>
+
+<div class="penlight-wrap">
+  <button class="penlight-btn" id="penlightBtn" title="Change lightstick color" aria-label="Change accent color">
+    <span class="bulb" id="bulb"></span>
+  </button>
+  <span class="penlight-hint">tap for<br>lightstick color</span>
+</div>
+
+<script>
+/* ================================================================
+   SITE CONFIG — edit everything here without touching the HTML/CSS
+   above. Add/remove social platforms by adding/removing objects
+   from the array below. (Songs are no longer listed manually — the
+   Tracklist section above embeds your live Spotify page instead.)
+   ================================================================ */
+const CONFIG = {
+  platforms: [
+    { name: "Spotify",       url: "https://open.spotify.com/artist/4YoZOLetpnP3iTjoq0iySR" },
+    { name: "YouTube",       url: "https://www.youtube.com/@Wen_Xuan106" },
+    { name: "YouTube Music", url: "https://www.youtube.com/channel/UCp_OvhyMCOr3hUxdxHZSdKg" },
+    { name: "Instagram",     url: "https://instagram.com/wen_xuan106.music.production/" },
+    { name: "TikTok",        url: "https://tiktok.com/@wen_xuan106" },
+    { name: "X",             url: "https://twitter.com/Wen_Xuan106" },
+    { name: "Facebook",      url: "https://facebook.com/WenXuan106official" },
+  ],
+  // Lightstick colors fans can tap through — add hex codes here
+  lightstickColors: ["#4FD8FF", "#FF4FA3", "#FFE45E", "#5EE87B", "#B168FF", "#FF7A45"]
+};
+
+// ---- render platforms ----
+const platformGrid = document.getElementById('platformGrid');
+CONFIG.platforms.forEach(p => {
+  const el = document.createElement('a');
+  el.className = 'platform';
+  el.href = p.url;
+  el.target = '_blank';
+  el.rel = 'noopener';
+  el.innerHTML = `<span class="p-name">${p.name}</span><span class="p-arrow">Open →</span>`;
+  platformGrid.appendChild(el);
+});
+
+// ---- penlight color cycle (signature interactive element) ----
+let colorIndex = 0;
+const bulb = document.getElementById('bulb');
+const root = document.documentElement;
+const glowField = document.getElementById('glowField');
+document.getElementById('penlightBtn').addEventListener('click', () => {
+  colorIndex = (colorIndex + 1) % CONFIG.lightstickColors.length;
+  const c = CONFIG.lightstickColors[colorIndex];
+  root.style.setProperty('--glow', c);
+});
+
+// ---- footer year ----
+document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
