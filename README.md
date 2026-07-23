@@ -1,39 +1,51 @@
-# Wen_Xuan106 — Site Admin
+# Wen_Xuan106 — official site
 
-A separate, single-file website that lets you edit **wenxuan106-production-fansite.vercel.app** without touching code or GitHub's interface directly. It reads and writes straight to your `Wen_Xuan106-Production` GitHub repo through GitHub's API — save a change here, and the live site redeploys automatically (since Vercel is already connected to that repo).
+A single-file website (`index.html`) — no build tools, no dependencies to install.
 
-## One-time setup: get a GitHub token
+## How to edit it
 
-This admin page needs permission to write to your repo on your behalf. You do this once by creating a **Personal Access Token**:
+Open `index.html` in any text editor (Notepad, VS Code, TextEdit, etc.):
 
-1. Go to [github.com/settings/personal-access-tokens/new](https://github.com/settings/personal-access-tokens/new) (sign in if asked).
-2. Under **Repository access**, choose **Only select repositories** → pick `Wen_Xuan106-Production`.
-3. Under **Permissions → Repository permissions**, find **Contents** and set it to **Read and write**.
-4. Click **Generate token** at the bottom.
-5. **Copy the token immediately** — GitHub only shows it once. It'll look like `github_pat_11ABC...`.
+- **Text on the page** (hero title, tagline, bio) — look for `<!-- EDIT: ... -->` comments and change the words right after them.
+- **Songs** — no editing needed. The Tracklist section embeds your live Spotify artist page, so new releases show up automatically whenever you drop them.
+- **Streaming/social links** — scroll to the `SITE CONFIG` section near the bottom of the file (inside the `<script>` tag) and edit the `platforms` array. Add or remove a `{ ... }` block for each link.
+- **Your photo** — replace the placeholder box in the "About" section with an `<img>` tag, as noted in the comment above it.
+- **Colors** — the `:root { ... }` block near the top of the `<style>` section has named color variables (`--pink`, `--cyan`, etc.) you can change.
 
-Keep this token somewhere safe (like a password manager) — you'll paste it into the admin page each time you want to make an edit. It's never saved by the admin page itself; closing or refreshing the tab clears it, so you'll paste it in again next time.
+No coding experience needed — you're just editing words and links inside quotes.
 
-## How to use the admin page
+## How to put it on the internet with GitHub (GitHub Pages)
 
-1. Open the admin page (see deployment below).
-2. Paste your token into the **Personal Access Token** field.
-3. Click **Load current site content** — it pulls in whatever's currently live.
-4. Edit your tagline, bio, stats, links, lightstick colors, or upload a new photo.
-5. Click **Save changes to GitHub**.
-6. Wait about a minute — Vercel picks up the new commit and redeploys your site automatically.
+1. Go to [github.com](https://github.com) and sign in (or create a free account).
+2. Click the **+** icon top-right → **New repository**. Name it anything, e.g. `wenxuan106-site`. Make it **Public**. Click **Create repository**.
+3. On the new repo page, click **uploading an existing file**.
+4. Drag in `index.html` **and the `assets` folder** (it contains your photo) and click **Commit changes**.
+5. Go to the repo's **Settings** tab → **Pages** (left sidebar).
+6. Under **Build and deployment → Source**, choose **Deploy from a branch**. Under **Branch**, choose `main` and folder `/ (root)`, then **Save**.
+7. Wait about a minute, then refresh the Pages settings screen — it will show your live URL, something like:
+   `https://your-username.github.io/wenxuan106-site/`
 
-## How to deploy this admin page
+That's it — every time you edit `index.html` in GitHub (or upload a new version) and commit, the live site updates automatically within a minute or two.
 
-This is its own separate site from your fan site, so it needs its own repo and its own Vercel project:
+## How to put it on the internet with Vercel
 
-1. Create a **new** GitHub repo (e.g. `wenxuan106-admin`) — this should be **private** if you don't want the admin URL discoverable by others, though the token itself is what actually protects write access.
-2. Upload this `index.html` to that new repo.
-3. Go to [vercel.com](https://vercel.com), sign in with GitHub, click **Add New… → Project**, import the `wenxuan106-admin` repo, and deploy with default settings.
-4. You'll get a URL like `https://wenxuan106-admin.vercel.app` — bookmark it. That's your private editing panel.
+This is a plain static site, so Vercel needs no build step or config file — it just serves `index.html` as-is.
 
-## Notes
+**Option A — straight from GitHub (recommended, auto-updates on every commit):**
+1. Push the site to a GitHub repo (see the GitHub Pages steps above if you haven't already).
+2. Go to [vercel.com](https://vercel.com) and sign in with your GitHub account (free tier is fine).
+3. Click **Add New… → Project**, then select your `wenxuan106-site` repo and click **Import**.
+4. Leave all settings as default (Framework Preset: **Other**) and click **Deploy**.
+5. After a minute, Vercel gives you a live URL like `https://wenxuan106-site.vercel.app`.
+6. From then on, every commit you push to GitHub redeploys the site automatically.
 
-- Only give this token the **one repo** it needs (`Wen_Xuan106-Production`) with just **Contents: Read and write** — nothing else. That way, even if the token were ever exposed, the blast radius is limited to that one repo.
-- Tokens can be revoked any time from [github.com/settings/personal-access-tokens](https://github.com/settings/personal-access-tokens) if you ever want to invalidate one.
-- Treat the admin page's URL like a private link — anyone with the token *and* the URL could edit your site, though without the token, loading the page does nothing.
+**Option B — upload without GitHub:**
+1. Go to [vercel.com](https://vercel.com) and sign in (any account works).
+2. Click **Add New… → Project → Deploy without Git**, or drag the whole site folder (`index.html` + `assets` folder) onto the Vercel dashboard's upload area.
+3. Click **Deploy**. You'll get the same kind of `.vercel.app` link.
+4. To update later, re-upload the folder from the project's dashboard (this option doesn't auto-update — Option A does).
+
+## Making edits later
+
+- **Easiest**: edit the file directly on GitHub — open `index.html` in your repo, click the pencil icon, make changes, click **Commit changes**.
+- **Locally**: download the file, edit it in a text editor, then re-upload it to GitHub (or use `git` if you're comfortable with it).
